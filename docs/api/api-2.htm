@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Hermes 1.3 API: Palette Handling</TITLE>
+ <LINK HREF="api-3.htm" REL=next>
+ <LINK HREF="api-1.htm" REL=previous>
+ <LINK HREF="api.htm#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="api-3.htm">Next</A>
+<A HREF="api-1.htm">Previous</A>
+<A HREF="api.htm#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Palette Handling</A></H2>
+
+<P>If you want to use 8 bit indexed modes, you will have to use palettes. Also,
+if you want to use indexed modes, you will have to tell HERMES what palette
+you are using so it can create lookup tables, and so on.
+<P>
+<P>HERMES needs lookup tables in order to convert efficiently from 8 bit to
+other formats without worrying you. If you just make a few function calls,
+HERMES will make sure your 8 bit mode works on any other mode.
+<P>
+<P>As a last remark, palettes are stored as 8 bit per colour component values,
+NOT 6 bit. Keep it in mind.
+<P>
+<P>
+<P>
+<H2><A NAME="ss2.1">2.1 HermesHandle Hermes_PaletteInstance()</A>
+</H2>
+
+<P>This function returns a handle for you to use in subsequent palette handling
+operations. It will return zero on failure. Store this handle somewhere,
+you will need it for the following functions. This has to be the first 
+function to be called before any palette handling.
+<P>
+<P>
+<H2><A NAME="ss2.2">2.2 void Hermes_PaletteReturn(HermesHandle handle)</A>
+</H2>
+
+<P>If you are finished, use this to return your palette. This will free up the
+memory occupied by the palette and all the cached tables, etc. If you pass
+an invalid handle, your call will be ignored.
+<P>
+<P>
+<H2><A NAME="ss2.3">2.3 void Hermes_PaletteSet(HermesHandle handle,int32 *palette)</A>
+</H2>
+
+<P>Surely, if you have a palette, you might want to set it. Use this function
+to copy 256 4-byte values from the pointer provided into the internal HERMES
+palette specified by handle. It would be a wise thing not to use this at all,
+i.e. not to store your own palette, but use the one already in HERMES,
+otherwise you are storing everything twice. In this case, look at the next
+function that says how to get access to the internal palette. But read on
+for caveats.
+<P>
+<P>If you call this function, HERMES will assume that your palette has changed
+and flag all it's lookup tables invalid. So do NOT call it in a loop or 
+anything unless your palette really does change. Lookup table recreation does
+not take place in there, however, but only when you actually convert something.
+<P>
+<P>CAVEAT: This is the only function that invalidates the lookup tables of
+HERMES. If you use the next function, Hermes_PaletteGet, to get a pointer and
+then modify the palette, HERMES will not know that it has changed. Thus,
+any conversion to a non-indexed mode will draw garbage. You can use the
+Hermes_PaletteInvalidateCache in this case to force regeneration of lookup
+tables upon the next conversion.
+<P>
+<P>
+<P>
+<H2><A NAME="ss2.4">2.4 int32* Hermes_PaletteGet(HermesHandle handle)</A>
+</H2>
+
+<P>As said up there somewhere, it is probably wiser to let HERMES store the
+palette you want to use as it has to do it anyway. You can use this function
+to get a pointer to a 256-integer array of colour values.
+<P>
+<P>Feel free to modify the palette, but keep in mind what is written above, you
+will trick HERMES and its lookup tables will be invalid. Call the next
+function documented below to resolve this.
+<P>
+<P>Also, HERMES will return 0 if you pass an invalid handle. Take care of this
+as it will probably cause you a segmentation fault.
+<P>
+<P>
+<H2><A NAME="ss2.5">2.5 void Hermes_PaletteInvalidateCache(HermesHandle handle)</A>
+</H2>
+
+<P>As described above, this function will cause HERMES to mark invalid all its
+lookup tables. As a consequence, when the next conversion from 8 bit is done,
+one of them will have to be regenerated. (By the way, 'regenerate a lookup
+table' sounds like pulling your teeth out. It is not. It's a minor thing,
+just a 256 byte table, no need to worry)
+<P>
+<P>
+<P>
+<P>
+<HR>
+<A HREF="api-3.htm">Next</A>
+<A HREF="api-1.htm">Previous</A>
+<A HREF="api.htm#toc2">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,216 @@
+You are reading the change log of a stable version of Hermes. Go to
+http://clanlib.org/hermes for development releases.
+ 
+This file lists the changes to HERMES. Newer versions are listed on top.
+-----------------------------------------------------------------------------
+Version 1.3.3
+  - Converted the c_genrc files to macros for greater readability and fixed some bugs
+  - Added the remaining stretch converters
+  - Removed the convert.c code - instead it calls the blit.c code
+  - Improved blit.c converter finder. Uses jump table instead of switch statements
+
+Version 1.3.2
+ - Maintenance release!
+ - Fixed alpha blitting.
+
+Version 1.3.1
+  - Fixed unix build environment.
+
+Version 1.3.0
+  - Added colorkey and alpha support
+  - Added blitting support
+
+Version 1.2.6-2 (25/11/1999):
+  - Fixed Windows compilation problem
+
+Version 1.2.6 (22/11/1999):
+  - More MMX converters (PII optimised by Jonathan Matthew! Work great on my
+    k6-2, 20% speedup!)
+  - Default installation prefix for the RPM files is now /usr not /usr/local
+  - Bug fixes (thanks to the clanlib people for reports)
+  - New test program for memory boundary violations
+
+Version 1.2.5 (21/05/1999):
+  - Included Sam Latinga's changes for static lookup tables.
+  - Added the first assembler stretching routines ! from 32 rgb 888 to 
+    16 rgb 565 gives a speedup from 30 frames/sec to ~55 frames/sec in a
+    benchmark over the c routines!
+  - Patched against a series of patches from Mikko which have major
+    effects:
+	- Speed up ALL c routines
+	- Optimise the case where a scanline is as wide as the pitch..
+	  The whole buffer can be converted at once.. top to bottom.
+	- When converting from lower bit modes (e.g. 16) to higher bit
+	  modes (e.g.32) some correction is done now
+	- A fix for the x86 8 bit clearer
+  - Updated the i8->16 converter (wrote an assembler converter)
+  - Tuned the generic converters a bit
+  - Some big endian fixes to the converters
+  - Casting fixes to reduce warnings with Visual C++ (Gaffer)
+  - Allowed the index parameter to the clear routine to be used as an alpha
+    parameter (optionally)
+  - Updated the API specification with the index change and spell-checked it :)
+  - Sped up the 32rgb888 to 24rgb888 C converter and the C i8 to 16rgb565  
+    converter.
+  - Included Gaffer's windows Visual C++ project file and updated the README
+    file. NASM is now required for Visual C.
+  - Upgraded libtool to 1.3.
+  - Fixed the assembler stretching routines. They don't use globals any more
+    and should be thread-safe now.
+  - Added Hermes_PaletteInvalidateCache.. sorry about that one.. it was 
+    missing in the last release.
+  - There's another public include file now, H_Config.h that concerns
+    information which unfortunately has to be exported from Hermes. (only
+    one #define so far anyway).
+  - Sped up the i8 to 24 C converter (write 4 pixels at a time). we were
+    a bit lazy about C converters to 24 bit admittedly.. well, we've got 
+    the assembler stuff anyway.. :)
+  - Changes changes changes.. Gaffer fixed up the visual c++ stuff a bit
+    more and Types.h is now *deprecated*.
+  - C++ styles comments (//) removed and replaced. Doh, seems some C
+    compilers are not up to the latest standard (yes, // comments are in
+    the latest C standard!)
+  - extern "C" in front of all declarations if you compile with a C++
+    compiler..
+  
+Version 1.2.4 (22/02/1999):
+  - Included debugging macros from the development version after complaints
+    from windows and dos programmers who aren't used to seeing debugging
+    output ;)
+  - 100000 thanks to Mikko for the intel2gas converter, NASM is NOT 
+    required anymore under Linux (or djgpp) for assembler support !!!
+  - Palette lookup generation will respect alpha values now (there you are
+    Gaffer..)
+  - Watcom problems with stack calling fixed.
+  - Added some documentation for the public interface into the source code.
+    Yes, you don't have to look it up in the API every time anymore now :)
+  - Factory converters will have the alpha mask set properly now. Beware as
+    RGBA888 now has the mask 0xff000000,0xff0000,0xff00,0xff, where the last
+    one was 0 previously.
+  - In addition, converters to RGBA and BGRA will now set the alpha bits to
+    1 instead of 0. Note that there are no converters at the moment to
+    convert to the formats ARGB888 and ABGR888. Only RGB888 and BGR888 are
+    available. (Everybody seems to use RGBA anyway..)
+  - Fixed a nasty NASTY MMX bug that occurs in Hermes 1.2.0-1.2.3.
+  - Compiles under FreeBSD!
+
+Version 1.2.3 (18/01/1999):
+  - Hermes development has forked into a stable branch (this), 1.2 and a
+    development branch 1.3. This is because the features in 1.3 (YUV 
+    colour space, tiled rendering etc.) would have broken the interfaces
+    of some libraries.
+  - Switched the whole thing to libtool. Please bear with us if Hermes does
+    not compile on your non-Linux UNIX system now. We're working on it
+    (automake's and libtool's fault! Cross-platform? Doesn't work on IRIX
+    or SunOS or Solaris or FreeBSD !!!)
+  - Quite a few converters integrated from the development version. All
+    formats are covered now (apart from stretching). Only optimisation left.
+  - Added a Makefile for Visual C. Untested.
+
+Version 1.2.2 (30/12/1998):
+  - install / uninstall added. have fun.
+  - Hermes.spec added, create your own RPMs if you want.
+  - More stretch converters, from Mikko
+  - Switched to stack passing from register passing. It creates more
+    problems than good and only one pointer is being passed anyway ...
+  - Fixed a few nasty bugs with 8 bit converters where two pixels wouldn't
+    be drawn at the end of scanlines
+  - Finished the API documentation for now.
+
+Version 1.2.1 (7/12/1998):
+  - Implemented a few stretching routines to show the way (All straight
+    copy routines except 24 bit are stretching, as is 32to16, 32to8 and
+    indexed8 to 16)
+  - Rewrote converter assignment in Factory.c (look into FactConv.c, that
+    now holds an array of all converters, with priority).
+    The switch statement from hell is gone. R.I.P.
+  - Watcom and DJGPP makefile integrated (see CONTRIB)
+  - Assembler routines patched to use shorter opcodes (see CONTRIB)
+  - Bugfixes in HeadX86.h (see CONTRIB :)
+  - Bugfix in c_clr.c, 32 bit clearer works OK now (thanks zoon)
+  - Bugfix in HermConf.h (djgpp..)
+  - Added --disable-x86asm to build the library without assembler support
+    on all unix systems, even if nasm is detected (good for testing and
+    benchmarking)
+  - There will now be an attempt to autodetect the system type when 
+    configuring for assembler support, using the uname program. It should
+    work correctly for Linux and FreeBSD. If it doesn't, you'll be prompted
+    instead.
+  - Hermes will be autoconf'd for C instead of C++ from now on. You have to
+    override this manually or use #extern "C" in your C++ code that includes
+    Hermes. (unix only)
+  - Some preliminary dithering routines, from code by the rasterman.. Ignore
+    them, they're not intended for use.
+  - Started API documentation in SGML.. Look into docs/api for a text file
+    and html version. 
+  - Added FAQ
+
+Version 1.2.0 (13/11/1998):
+  - Friday the 13th release of a COMPLETE REWRITE, you may estimate the
+    number of bugs yourselves :)
+  - Support for optimisated routines for different processors
+  - Better support for stretching
+  - Assembler #ifdefs pinpointed and localised in one .c file (apart from
+    the headers that declare the routines)
+  - Support for both converters that have a main loop that calls a special
+    loop for every scanline and all-in-one converters that will convert a
+    whole rectangular block
+  - A factory method to configure Hermes with the right routines at startup,
+    rather than on the fly.
+  - Cached palette lookup tables, 'nuff said :)
+  - Frequent-Conversion-Friendly system that will retrieve converters for
+    popular colour formats F.A.S.T.
+  - The dreadful #define NO_ASSEMBLER has been replaced by one that means
+    the opposite: #define X86_ASSEMBLER. Omitting it will not produce errors
+    anymore but rather compile correct C routines
+  - Some bugs from previous versions eliminated
+  - Not tested to the same extent as the previous version. Handle with care
+    and be prepared for a quick follow-up release.
+
+Version 1.0.4 (never released):
+  - Added Mutable.c that implements a list of per-instance structures 
+  - Most functions return chars now to indicate whether they failed
+  - HermesInit returns a handle now
+  - More checks whether things get initialised properly
+  - Added assembler routines for conversion from 32 bit to: 32 bit BGR,
+    32 bit RGBA, 32 bit BGRA (from ptc 0.72)
+
+Version 1.0.3 (20/10/1998):
+  - 24 bit Generic to * routines added. Indeed, ANY 32, 24, 16 bit direct 
+    source format will now be converted to any 32,24,16,8 bit destination
+    format (by a generic routine in the worst case)
+  - Lots of big-endian fixes (this time they are tested, on an SGI O2).
+    Still quite a bit of big-endian testing left though..
+  - Clear support added ! (C routines so far)
+  - W00p.. Assembler clear routines
+  - W000000p.. MMX clear routines ! :) (MMX actually pays for memory
+    clearing. All the MMX routines, with no exceptions, are faster than
+    x86 or C routines at surface clearing!)
+  - Plenty of stuff planned for the next version, don't even dream of 
+    a frozen API :)
+
+Version 1.0.2 (01/10/1998):
+  - Muhmuh renamed to Muhmu (DOH :)
+  - 16 bit to * assembler routines added (adapted from PTC 0.72)
+  - 'Multiple users' support added. You can initialise Hermes more than once
+    now, it will keep a reference count. When there are no users left, then
+    it will be destroyed again.
+
+Version 1.0.1 (17/9/1998):
+  - Different C format conversion routines separated into different files.
+    (c_16.c c_32.c etc)
+  - Little/big endian distinction handled by macros in a more efficient way.
+  - TODO.conversion created to keep track of the status of conversion 
+    routines.
+  - Destructor bug fixed
+  - PLENTY of new C routines added and old routines optimised
+  - All char* replaced with char8* (fixes a colour overflow bug)
+  - Muhmuh colour format added
+  - Generic To Generic routines added
+  - New assembler routines
+  - Bugfix, MMX routines work now
+  - 32 to 16 MMX routine temporarily removed
+
+Version 1.0.0 (8/9/1998):
+  - Initial release to the public
+

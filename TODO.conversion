@@ -1,0 +1,74 @@
+
+!! NOTE - This is a stable release. If you want newer features that are
+   listed down there or even things that aren't listed, try the development
+   version, although that is unsupported !!
+
+-----------------------------------------------------------------------------
+
+Here's what the letters down there mean:
+  F = Finished (or smaller optimisations left)
+  O = Not well optimised, things that could be done, like read multiple
+      pixels (every routine writes multiple pixels though!)
+    = A blank means still missing (but covered by generic converters!!)
+  - = Not planned at the moment (or not needed because it's completely covered
+      by other converters)
+  C = Handled by direct copy routines
+  
+Note that none of the really frequent conversions are missing in this
+release, only rare conversion will have an M. Let me stress again that
+conversion not covered will normally still be done by generalised
+converters, just a bit slower.
+
+Finally, this file only lists C routines, assembly routines are not listed
+here.
+
+NEW: There are TWO values for each function now. The left one is for normal
+conversion, the right one for stretching.
+
+
+CLEAR FUNCTIONS:
+
+Generic32         F
+Generic24         O
+Generic16         F
+Generic8          F
+
+
+    
+GENERIC ROUTINES (slow):
+
+           From (normal|stretch)
+
+To         Generic32  Generic24  Generic16
+
+Generic32      F F        F          F  
+Generic24      F          F          F  
+Generic16      F O        F          F  
+Generic8       F          F          F  
+(03/01/1999: Those F's are all wrong, the generic routines could be much
+ faster!!)
+
+
+SPECIALISED ROUTINES (fast):
+        
+           From (normal|stretch)
+
+To         muhmu32   32rgb888  24rgb888  16rgb565  Index8
+
+32rgb888      F         C C    *  O       ** O F     F F                   
+32bgr888      F         F F       O          O F     F F
+32rgba888     F         F F       F          O F     F F
+32bgra888     F         F F       O          O F     F F
+24rgb888      O         F         C C        O       F
+24bgr888      O         O         F          O       O
+16rgb565      F O       F O       O          C C     F O
+16bgr565      F O       F O       O          F O     F O
+16rgb555      F O       F O       O          F O     F O
+16bgr555      F O       F O       O          F O     F O
+8rgb332       F O       F O       O          F O     - -
+Index8                                               C C
+
+* The 24 bit routines could all read 4 pixels at ones and thus dword reads
+but they aren't yet.
+** Converters from 16 to 32 bit should be optimised in that they should read
+two pixels at a time, i.e. a dword

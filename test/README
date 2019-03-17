@@ -1,0 +1,35 @@
+
+The files in this directory are used by the author to test various things
+at various time. Feel free to use them for your own enjoyment but no 
+guarantees that they will work.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Rephrased.. They are UNSUPPORTED :) Some of them require C++ as well!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+By the way, you will need the following (and they're hardcoded in the
+Makefile):
+	- X SHM extension
+	- hermes compiled properly and positioned in ../src/.libs
+	- X11 libraries in /usr/X11R6/lib
+	- Electric Fence
+
+If you're more interested, this is what each of the files test:
+	
+	- CheckLeaks.c: This is supposed to return 0 at the end if there
+	are no memory leaks. It returns 32 at the moment.. :) Anyway, this
+	uses highly platform specific code.. so it might not compiled if
+	you don't use Linux.
+
+	- Test.c: This is to test conversion from 32 bit rgb888 to whatever
+	you like. 16 bit rgb 565 is hardcoded. It displays a couple of
+	strips in different colours.
+
+	- TestPalette.c: Same as test, but from an indexed mode to a target.
+	Displays no strips but curve-like thingies..
+
+	- Request.c: Benchmark the converter request routine.
+
+	- Efence.cc: Checks the most frequently used converters for
+	boundary violations using electric fence. This takes ages so
+	be prepared to wait.

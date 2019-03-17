@@ -1,0 +1,35 @@
+VERSION 1.3
+
+SEGMENTS
+
+text
+
+EXPORTS
+
+    Hermes_Init
+    Hermes_Done
+    Hermes_PaletteInstance
+    Hermes_PaletteReturn
+    Hermes_PaletteSet
+    Hermes_PaletteGet
+    Hermes_PaletteInvalidateCache
+    Hermes_ConverterInstance
+    Hermes_ConverterReturn
+    Hermes_ConverterRequest
+    Hermes_ConverterPalette
+    Hermes_ConverterCopy
+    Hermes_ClearerInstance
+    Hermes_ClearerReturn
+    Hermes_ClearerRequest
+    Hermes_ClearerClear
+    Hermes_FormatNewEmpty
+    Hermes_FormatNew
+    Hermes_FormatEquals
+    Hermes_FormatCopy
+    Hermes_BlitterInstance
+    Hermes_BlitterReturn
+    Hermes_BlitterBlit
+    Hermes_BlitterPalette
+    Hermes_BlitterRequest
+    Hermes_FormatFree
+    Hermes_FormatNewEx

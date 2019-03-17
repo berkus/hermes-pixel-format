@@ -1,0 +1,69 @@
+
+Everybody listed in this file has contributed to Hermes and has a copyright
+at least in parts of Hermes. Please ignore the order, all of the
+contributions are very valuable.
+
+---[Main Authors]---
+
+  - Christian Nentwich
+	- Original implementation
+	- Library structure and back bones (converter management, etc.)
+	- Lots of C converters
+	- asm converters (mmx & x86)
+
+  - Mikko Tiihonen
+	- C converters, asm converters
+	- Lots of fixes
+	- DOS support
+	- intel2gas !!
+
+  - Glenn Fiedler 
+	- Large base of x86 converters
+	- Windows support
+
+  - Zoon (jmatthew@uq.net.au)
+	- MMX converters from 32 bit
+	- Testing under DOS
+	- Watcom makefile, DJGPP makefile
+
+  - Magnus Norddahl
+    - Hermes blitter interface.
+    - Hermes alpha converting support.
+    - Electric Fence test program
+    - Bug fixes
+
+  - Daniel Vogel
+    - Hermes blitters.
+    - Hermes colorkey converters.
+
+---[Contributors]---
+
+- Lenny Palozzi
+  - Hermes blitters (generic alpha blitters)
+
+Sam Latinga
+  - Adjusted the 16* converters to use precalculated lookup tables.. and 
+    wrote a little tool to make the tables.
+  - Nice benchmarking contests :)
+
+Daniel James Patterson
+  - Debian packaging
+
+John Robinson (soco@csh.rit.edu)
+  - Changes to make it work under BeOS
+
+Elemental (elemental@chaos.concepts.nl)
+
+  - Testing under DOS, bugfixes
+  - A Watcom makefile (which did not get released, but anyway, a good
+    effort :)
+
+Mark Page (rombust@postmaster.co.uk)
+
+  - Converted the c_genrc files to macros for greater readability and fixed some bugs
+  - Added the remaining stretch converters
+  - Removed the convert.c code - instead it calls the blit.c code
+  - Improved blit.c converter finder. Uses jump table instead of switch statements
+
+Jeroen Janssen (japj@darius.demon.nl)
+  - misc changes

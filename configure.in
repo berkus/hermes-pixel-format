@@ -1,0 +1,173 @@
+#
+# GNU autoconf script for Hermes
+# Copyright (c) 1998 Christian Nentwich (c.nentwich@cs.ucl.ac.uk)
+# This package is licensed under the GNU LGPL
+#
+# Please refer to COPYING.LIB contained in this distribution for licensing
+# conditions
+#
+
+# 3. If the library source code has changed at all since the last
+#    update, then increment REVISION (:R:A' becomes :R+1:A').
+# 4. If any interfaces have been added, removed, or changed since the
+#    last update, increment CURRENT, and set REVISION to 0.
+#  5. If any interfaces have been added since the last public release,
+#    then increment AGE.
+#  6. If any interfaces have been removed since the last public release,
+#    then set AGE to 0.
+
+AC_INIT(src/Hermes.h)
+
+HERMES_VERSION_MAJOR=1
+HERMES_VERSION_MINOR=3
+HERMES_VERSION_MICRO=0
+
+HERMES_CURRENT=1
+HERMES_REVISION=0
+HERMES_AGE=0
+HERMES_VERSION=$HERMES_VERSION_MAJOR.$HERMES_VERSION_MINOR.$HERMES_VERSION_MICRO
+
+AC_SUBST(HERMES_VERSION)
+AC_SUBST(HERMES_CURRENT)
+AC_SUBST(HERMES_REVISION)
+AC_SUBST(HERMES_AGE)  
+
+AM_INIT_AUTOMAKE(hermes, $HERMES_VERSION)
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+dnl AM_MAINTAINER_MODE
+dnl AM_DISABLE_STATIC
+
+AM_CONFIG_HEADER(src/hrconfig.h)
+
+dnl ---------------------------------------------------------------------
+dnl Checks for programs.
+
+AC_PROG_CPP
+AC_PROG_MAKE_SET
+AC_PROG_LIBTOOL
+
+dnl ---------------------------------------------------------------------
+dnl Check for command line arguments
+
+HERMES_LIBS=""
+
+dnl Check if x86 assembler is desired (default yes)
+
+AC_MSG_CHECKING(whether x86 assembly is desired)
+AC_ARG_ENABLE(x86asm,
+[  --disable-x86asm   disable assembler routines, even if assembler is found],
+PTC_ASM=$enableval,
+PTC_ASM="yes") 
+AC_MSG_RESULT([$PTC_ASM])
+
+AC_MSG_CHECKING(for debug level)
+AC_ARG_ENABLE(debug,
+[  --enable-debug=1        activate debugging at the specified level],
+DEBUG_LEVEL=$enableval, 
+DEBUG_LEVEL="0")
+AC_MSG_RESULT([$DEBUG_LEVEL])
+
+if [ test $DEBUG_LEVEL = "1"]; then
+  AC_DEFINE(DEBUG_LEVEL1)
+fi
+
+if [ test $DEBUG_LEVEL = "2"]; then
+  AC_DEFINE(DEBUG_LEVEL2)
+fi
+
+echo ""
+echo "If two people are in a room ..."
+echo ""
+
+dnl Find the word sizes
+
+AC_CHECK_SIZEOF(long)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(char)
+AC_CHECK_SIZEOF(short)
+
+echo ""
+echo "... and five walk out ..."
+echo ""
+
+dnl Check if we are big or little endian
+
+AC_C_BIGENDIAN([ac_big_endian=yes, AC_DEFINE(WORDS_BIGENDIAN)],ac_big_endian=no)
+AC_MSG_RESULT([$ac_big_endian])
+
+
+AC_MSG_CHECKING(for money)
+AC_MSG_RESULT([none left :(])
+
+dnl Check for assembler availability 
+
+AC_MSG_CHECKING(for assembler support)
+if [ test $PTC_ASM = "yes" ]; then
+
+	herm_sysname=`uname -s`
+	AR_ASM_OBJECTS=""
+
+	case $herm_sysname in
+	  Linux|FreeBSD|CYGWIN*)
+	  	  herm_machine=`uname -m`
+		  case $herm_machine in
+		    i686)
+	      		AC_MSG_RESULT([$herm_sysname i686, assembler routines enabled!])
+	      		AC_DEFINE(X86_ASSEMBLER)
+	      		AR_ASM_OBJECTS="asmobjects"        
+	  	        ;;
+		    i586)
+	      		AC_MSG_RESULT([$herm_sysname i586, assembler routines enabled!])
+	      		AC_DEFINE(X86_ASSEMBLER)
+	      		AR_ASM_OBJECTS="asmobjects"        
+	  	        ;;
+	    	    i486)
+  	      		AC_MSG_RESULT([$herm_sysname i486, assembler routines enabled!])
+              		AC_DEFINE(X86_ASSEMBLER)
+              		AR_ASM_OBJECTS="asmobjects"
+	      		;;
+	    	    i386)
+              		AC_MSG_RESULT([$herm_sysname i386, assembler routines enabled!])
+              		AC_DEFINE(X86_ASSEMBLER)
+              		AR_ASM_OBJECTS="asmobjects"
+	      		;;
+	   	      *)
+	      		AC_MSG_RESULT([Unsupported architecture])
+	      		;;
+	  	  esac
+        esac
+fi
+
+AM_CONDITIONAL(BUILDASM, test x$AR_ASM_OBJECTS = xasmobjects)
+
+dnl Perform substitutions
+
+CCAS=$CC
+CCASFLAGS=$CFLAGS
+AR_COMPILER=$CC
+AR_FLAGS=$CFLAGS
+
+dnl let's keep autoconf 2.5 happy
+AS=$CC
+AC_SUBST(AS)
+AC_SUBST(ASFLAGS)
+AC_SUBST(CCAS)
+AC_SUBST(CCASFLAGS)
+
+
+
+AC_SUBST(AR_FLAGS)
+AC_SUBST(AR_ASM_OBJECTS)
+AC_SUBST(AR_COMPILER)
+AC_SUBST(AR_ASM_FLAGS)
+AC_SUBST(HERMES_LIBS)
+
+AC_OUTPUT(Makefile src/Makefile)
+
+echo ""
+echo "... how many have to walk in for the room to be empty ?"
+echo ""
+echo "Turn on your -O6 now!"
+echo "Welcome to Hermes 1.3.2!"
+echo ""

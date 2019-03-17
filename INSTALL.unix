@@ -1,0 +1,61 @@
+HERMES 1.3.2 (c)1998 Christian Nentwich (brn) (c.nentwich@cs.ucl.ac.uk)
+
+This library and all the files enclosed in this package are free software
+under the terms of the GNU Library General Public License (LGPL). Please
+refer to the included file COPYING.LIB for the exact terms.
+----------------------------------------------------------------------------
+
+
+This file describes how to compile and link HERMES under any UNIX type system.
+
+	1. Building
+
+	2. Installing
+
+	3. Cleaning up
+
+
+
+1. Building
+
+  You use a unix system, therefore you'll be spoiled. Basically, all you do
+is run './configure' and 'make'. Done.
+
+  That's the basic build. If you want a proper library (i.e. fast) OR you
+want to use a C++ compiler instead of C, then use the following commands:
+
+      CC=g++ CFLAGS=-O2 ./configure           OR, on some systems
+      env CC=g++ ./configure
+
+  Personally, I use pgcc for compiling HERMES with PTC and the following
+flags:
+  
+      CC=pgcc CFLAGS="-O6 -mpentium -malign-loops=2 -malign-functions=2
+		      -malign-jumps=2" ./configure
+      
+  After this you can type 'make' again, but this time you get a quicker 
+library. That's all there is to it. You can link libHermes.so to your
+favourite graphics library now.
+
+  ALWAYS remember to type 'make distclean' before changing to a new compiler!!
+
+
+
+2. Installing
+
+  Just type 'make install'. If you want to get rid of the whole thing again,
+type 'make uninstall'. Note that you can change the prefix of the install
+directories from '/usr/local' to whatever you like using configure. Type
+'./configure --help' for help on that.
+
+
+3. Cleaning up
+
+  Type 'make clean' to remove all the .o files and 'make distclean' to erase
+the library, .o files, and configuration.
+
+
+
+brn (15/01/1999)
+
+

@@ -1,0 +1,32 @@
+VERSION 1.3
+
+EXPORTS
+
+    _Hermes_Init@0                                  @1
+    _Hermes_Done@0                                  @2
+    _Hermes_PaletteInstance@0                       @3
+    _Hermes_PaletteReturn@4                         @4
+    _Hermes_PaletteSet@8                            @5
+    _Hermes_PaletteGet@4                            @6
+    _Hermes_PaletteInvalidateCache@4                @7
+    _Hermes_ConverterInstance@4                     @8
+    _Hermes_ConverterReturn@4                       @9
+    _Hermes_ConverterRequest@12                     @10
+    _Hermes_ConverterPalette@12                     @11
+    _Hermes_ConverterCopy@52                        @12
+    _Hermes_ClearerInstance@0                       @13
+    _Hermes_ClearerReturn@4                         @14
+    _Hermes_ClearerRequest@8                        @15
+    _Hermes_ClearerClear@44                         @16
+    _Hermes_FormatNewEmpty@0                        @17
+    _Hermes_FormatNew@24                            @18
+    _Hermes_FormatEquals@8                          @19
+    _Hermes_FormatCopy@8                            @20
+    _Hermes_BlitterInstance@4                       @21
+    _Hermes_BlitterReturn@4                         @22
+    _Hermes_BlitterBlit@52                          @23
+    _Hermes_BlitterPalette@12                       @24
+    _Hermes_BlitterRequest@12                       @25
+    _Hermes_FormatFree@4                            @26
+    _Hermes_FormatNewEx@32                          @27
+

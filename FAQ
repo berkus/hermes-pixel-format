@@ -1,0 +1,119 @@
+HERMES 1.3.3 (c)1998 Christian Nentwich (brn) (c.nentwich@cs.ucl.ac.uk)
+
+This library and all the files enclosed in this package are free software
+under the terms of the GNU Library General Public License (LGPL). Please
+refer to the included file COPYING.LIB for the exact terms.
+----------------------------------------------------------------------------
+
+
+Table of Contents:
+
+
+	1. What is Hermes?
+
+	2. How much does it cost to use Hermes ?
+
+	3. Why is Hermes written in C ?
+
+	4. Can I link Hermes to a C++ program ?
+
+	5. Why do you bother writing assembly language converters, I heard 
+	   most compilers are at least as fast as handwritten code today.. ?	
+	6. I find this library cool, how can I help?
+
+	7. I have a graphics library and want to add pixel conversion. How do 
+	   I use Hermes ?
+
+        8. Where's the documentation ?
+
+	9. Does Hermes do alpha blending ?
+
+
+
+1. What is Hermes ?
+
+Hermes is a pixel conversion library. Its only purpose is to take a buffer
+full of pixels and convert it into a target buffer full of pixels. The
+two can differ both in size and in format.
+
+Hermes is primarily intended for fast graphics display and it is optimised
+for that. Where this goal can be achieved by dismissing minimal graphic
+errors, Hermes will do so (minimal means almost not noticeable). But that is
+likely to be very configurable in the near future to allow for user
+selection of trade-off.
+
+You can find the latest version of Hermes at
+
+	 http://clanlib.org/hermes
+
+
+
+2. How much does it cost to use Hermes ?
+
+Nothing, Hermes is licensed under the GNU Library General Public License.
+That means you are free to link your program to Hermes if you fulfill
+the rest of the criteria of the license. (Read COPYING.LIB and LICENSE)
+
+
+
+
+3. Why is Hermes written in C ?
+
+Because as a C program it can be used by both C and C++ compilers. Hermes
+can actually be compiled using either a C or a C++ compiler. (And is
+being used by both C and C++ libraries!). Also, C is just that little bit
+faster for purposes like this :)
+
+
+
+
+4. Can I link Hermes to a C++ program ?
+
+Yes you can. Hermes has extern "C" declarations so you can even link it to
+a C++ program if it has been compiled using a C compiler.
+
+You are well advised to compile Hermes with C because that will make it just
+that little bit faster ;)
+
+
+
+
+5. Why do you bother writing assembly language converters, I heard most
+   compilers are at least as fast as handwritten code today.. ?
+
+Do you really believe that? :) No, honestly, for the kind of task Hermes
+is fulfilling, which consists of very basic Shift-And-Mask algorithms,
+handwritten code can be a hell of a lot faster than compiled code, at least
+on a non-RISC processor like the x86 series and especially on chipsets not
+supported by compilers, like MMX.
+
+
+
+
+6. I find this library cool, how can I help?
+
+There's plenty of stuff to do, just e-mail me, c.nentwich@cs.ucl.ac.uk
+
+
+
+
+7. I have a graphics library and want to add pixel conversion. How do I
+   use Hermes ?
+
+Read the API. It's in docs/api. Alternatively, why not have a look at one of 
+the Prometheus Truecolour (PTC) library distributions: 
+http://www.gaffer.org/ptc. 
+Download the unix or the DOS distribution.
+
+
+
+8. Where's the documentation ?
+
+In docs/api.
+
+
+
+9. Does Hermes do alpha blending ?
+
+No it doesn't. This feature is planned for the development version (1.3),
+same applies to colour keying.

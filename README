@@ -1,0 +1,134 @@
+HERMES 1.3.3 (c)1998 Christian Nentwich (brn) (c.nentwich@cs.ucl.ac.uk)
+and quite a few assembler routines (c) Glenn Fielder (gaffer@gaffer.org)
+
+This library and all the files enclosed in this package are free software
+under the terms of the GNU Library General Public License (LGPL). Please
+refer to the included file COPYING.LIB for the exact terms.
+----------------------------------------------------------------------------
+
+WARNING: This file may be partly outdated. I do update it with the newest
+information but some sections need some brushing up.
+
+
+Table of Contents
+
+	1. Introduction
+
+	2. Usage
+
+	3. Where to get the newest HERMES
+
+        4. Prerequisites
+	     Where to get NASM (not for Linux anymore!!)
+
+	5. Libraries that use HERMES
+
+	6. How to submit bug reports
+
+
+
+
+1. Introduction
+
+  HERMES, named after the messenger of the gods, is a library whose 
+only purpose is to convert graphic data from one pixel format to another in
+the fastest possible way. It was born out of the PTC library. One day the
+pixel format routines were removed from PTC and made a library on their own
+to speed up development and bug fixing and to encourage other people to use
+these routines and contribute to them.
+
+  What we have now is an extremely portable library (it doesn't do any I/O,
+so it should compile on a GameBoy :) that can be compiled using either a C
+or a C++ compiler, depending on what code you use it with. It is being 
+developed using both GNU C and GNU C++ in order to ensure maximum
+compatibility with both languages.
+
+  Er, before I forget it, HERMES will also do surface clearing. And it will
+do it FAST (even with x86 and MMX routines if you're on those platforms)
+
+
+
+2. Where to get the newest HERMES
+
+  The HERMES homepage is at 
+
+	http://clanlib.org/hermes
+
+  Both stable releases and development versions can be found there. There is
+also a mailing list for general correspondance and a CVS server that is used
+for shared development. Have a look. :)
+
+
+
+3. Usage
+
+  HERMES isn't very useful on its own. It wasn't meant to be, it is developed
+to be part of bigger graphics libraries. Check out the next point on 
+libraries that use HERMES. Or, alternatively, maybe you wrote your own
+graphics library that holds an offscreen buffer and wants its contents
+copied to the screen. Then HERMES is your friend as well.
+
+  Maybe you will find Hermes useful in a program of yours.. If so, send me
+some e-mail, I'll be quite interested to hear what it is :)
+
+  The API of Hermes can be found in docs/api.
+
+
+
+4. Prerequisites
+
+  First of all, you need a compiler. The library has been known to compile
+on the following, but it should compile on any system with a proper ANSI C
+compiler:
+    
+    - Linux, RedHat 5.0 with gcc 2.7.2
+    - Linux, RedHat 5.0 with pgcc 1.0.3a
+    - Linux, RedHat 5.1 with egcs 1.0.2
+    - Linux, RedHat 5.1 with pgcc 1.1b
+    - Linux, Mandrake 6.0 with pgcc (egcs 1.1.2)
+    - FreeBSD 2.2.7 with gcc 2.7.2		(read INSTALL.BSD)  
+    - Microsoft Window, Visual C++ 6 		(read INSTALL.Win32)
+    - DOS, with WATCOM C v11			(read INSTALL.DOS)
+    - DOS, with DJGPP v2 (gcc 2.8.1)		(read INSTALL.DOS)
+    - BeOS for Intel, with ? (has been reported to compile)
+    - IRIX 6.3 with gcc 2.7.2       | Support for those had to be suspended
+    - Solaris with gcc 2.7.2        | because of faulty automake / libtool
+    - SunOS with gcc 2.7.2          | that only work with GNU utilities...
+
+  If you want assembler routines with Watcom C or Visual C, you need to
+download and install NASM. Get it from
+
+	http://www.cryogen.com/Nasm
+
+The latest version is 0.97. Nasm is freely available and is quite a good
+assembler.
+
+!!!  Please note that NASM is NOT required anymore for assembler support 
+     under Linux or DJGPP !!!
+
+
+
+5. Libraries that use HERMES
+
+  - Prometheus Truecolour (PTC) obviously uses HERMES. You can get this
+    nice C++ library at http://www.gaffer.org/ptc. Or you can download
+    the X11 version at http://www.cs.ucl.ac.uk/students/c.nentwich/ptc
+
+  - Simple DirectMedia Layer (SDL) uses the MMX assembler routines of HERMES.
+
+  - ClanLib (http://www.clanlib.org) uses Hermes for format conversion.
+
+  - It could be you! :)
+
+
+6. How to submit bug reports
+
+  Well, first of all, make sure it *really* is HERMES's fault, not the fault
+  of the library you are using.
+
+  Then go to the Sourceforge Bug Tracker located at:
+
+    http://sourceforge.net/tracker/?group_id=32920&atid=406723
+ 
+  And enter all your information in a "New Bug Submission".
+  (make sure Category is set to Hermes!)

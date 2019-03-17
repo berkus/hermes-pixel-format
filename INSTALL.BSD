@@ -1,0 +1,30 @@
+HERMES 1.3.2 (c)1998 Christian Nentwich (brn) (c.nentwich@cs.ucl.ac.uk)
+
+This library and all the files enclosed in this package are free software
+under the terms of the GNU Library General Public License (LGPL). Please
+refer to the included file COPYING.LIB for the exact terms.
+----------------------------------------------------------------------------
+
+Yes, Hermes will compile and install on FreeBSD, with full assembler 
+support, even without NASM, using gcc directly (if you have a gcc that
+supports MMX instructions! gcc 2.7.2 does NOT support MMX instructions)
+
+Note, however, that the 'make' utility on my FreeBSD at least could not cope
+with the automatically generated make files. So, here's the condition:
+
+	You need GNU make installed somewhere. Use the following command when
+	configuring the package (see INSTALL.unix):
+	   
+	  env MAKE=/path/to/gnumake/make ./configure
+
+	If you are using bash, leave away the 'env' command. To build:
+
+  	  /path/to/gnumake/make 
+
+Note that if your gcc is too old to support MMX instructions (e.g. gcc
+2.7.2), the assembler files will not build. Use ./configure --disable-x86asm
+in this case.
+
+That's it, enjoy. Read INSTALL.unix and README for more.
+
+brn (21/04/1999)

@@ -1,0 +1,12 @@
+blitters:
+
+C->A
+A->C
+A->A
+A->O
+
+C->A will default to O->A
+A->C will default to A->O
+A->A will default to A->O
+
+A->O is currently written.

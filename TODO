@@ -1,0 +1,36 @@
+
+!! NOTE - This is a stable release. If you want newer features that are
+   listed down there or even things that aren't listed, try the development
+   version, although that is unsupported !!
+
+Update: Nothing is being added to this TODO list. The stable releases are
+in maintenance mode, i.e. bugfixing and new converters are being added
+as they are written + support for new compilers. But no API changes as there
+are too many library dependencies to break.
+
+All work goes into the development release and some of it is being fed back
+in here.
+
+-----------------------------------------------------------------------------
+
+Now, with the rewrite there are a few things to do (in order of priority):
+
+DONE - Implement more stretch converters. If anyone wants to offer help,
+      please get in touch. It's not a hard job..
+      In particular, stretch converters for generic routines. The percentage
+      on the left shows how many converters are done in total. Note that
+      it is only so low because of stretch converters. Normal converters
+      exist for all formats. At the time of writing this, 106 / 144
+      converters have been written.
+
+DONE - Stretch converters for generic formats
+
+DONE- Incorporate Visual C support (that means write a Makefile.. and force
+      stack calling) 
+
+5%  - Speed up generic converters
+
+5%? - Assembler stretching
+
+    - Implement more dithering (and dithered stretching :)
+

@@ -1,0 +1,48 @@
+HERMES 1.3.2 (c)1998 Christian Nentwich (brn) (c.nentwich@cs.ucl.ac.uk)
+
+This library and all the files enclosed in this package are free software
+under the terms of the GNU Library General Public License (LGPL). 
+Please refer to the included file COPYING.LIB for the exact terms.
+
+A special note for Windows users: Free means free as in speech, not
+free beer. You can link this application against your own but you have
+to stick to the license.
+
+Read it now.
+
+-------------------------------------------------------------------------		
+
+"How to compile HERMES under Windows"
+1) Get NASM
+	As of version 1.2.5, you MUST have NASM installed to build Hermes.
+	NASM is an excellent assembler for a variety of x86 operating systems
+	and it is freely available. You can get it from
+
+		http://www.cryogen.com/Nasm
+
+	or do a web-search for it. 
+	Make sure the executable is called 'nasmw.exe'and is in your path, 
+	otherwise you will get errors.
+
+2) Build it
+	Easy enough. Go to the 'src' directory (or folder if you must..),
+	open the "Hermes.dsw" Workspace with Visual Studio. 
+	Go to the "Build" menu and select "Batch Build...". Select which
+	version you want (don't build the debug version unless your program
+	crashes, it is vital that Hermes runs as fast as possible) and start
+	the build.
+	In the src\ directory two new directories will be created: 
+	\Debug and \Release. You can guess what they mean.. Each of them contains a
+	couple of object files and more importantly Hermes.dll.
+
+	I suggest that you do the following things after having compiled Hermes:
+	
+	Copy Hermes.dll somewhere you can link against it
+		Copy Hermes.h Types.h and H_*.h to your include directory
+
+	You are now ready to use HERMES. It is probably a good idea to read
+	the FAQ and the API so you find out how to use HERMES. 
+	Also, a quick look into README will not harm you (it might harm you if you
+	use Notepad as that file uses UNIX linebreaks).
+
+brn(19/05/1999)

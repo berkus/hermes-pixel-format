@@ -1,0 +1,52 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+USEUNIT("Utility.c");
+USEUNIT("c_16.c");
+USEUNIT("c_24.c");
+USEUNIT("c_32.c");
+USEUNIT("c_32_ao_blit.c");
+USEUNIT("c_clr.c");
+USEUNIT("c_cnv.c");
+USEUNIT("c_cpy.c");
+USEUNIT("c_genrc.c");
+USEUNIT("c_genrc_a.c");
+USEUNIT("c_genrc_ac.c");
+USEUNIT("c_genrc_ao_blit.c");
+USEUNIT("c_genrc_ca.c");
+USEUNIT("c_genrc_cc.c");
+USEUNIT("c_genrc_cc_blit.c");
+USEUNIT("c_genrc_co_blit.c");
+USEUNIT("c_i8.c");
+USEUNIT("c_muhmu.c");
+USEUNIT("Clear.c");
+USEUNIT("Convert.c");
+USEUNIT("d_32.c");
+USEUNIT("Dither.c");
+USEUNIT("FactConv.c");
+USEUNIT("Factory.c");
+USEUNIT("Format.c");
+USEUNIT("Hermes.c");
+USEUNIT("List.c");
+USEUNIT("Palette.c");
+USEUNIT("Blit.c");
+USEASM("nasm\x86pScpy.asm");
+USEASM("nasm\mmx_main.asm");
+USEASM("nasm\mmxp_32.asm");
+USEASM("nasm\mmxp2_32.asm");
+USEASM("nasm\x86_clr.asm");
+USEASM("nasm\x86_main.asm");
+USEASM("nasm\x8616lut.asm");
+USEASM("nasm\x86p_16.asm");
+USEASM("nasm\x86p_32.asm");
+USEASM("nasm\x86p_cpy.asm");
+USEASM("nasm\x86p_i8.asm");
+USEASM("nasm\x86p_s32.asm");
+USEASM("nasm\mmx_clr.asm");
+USEDEF("borland.def");
+//---------------------------------------------------------------------------
+#define Library
+
+// To add a file to the library use the Project menu 'Add to Project'.
+

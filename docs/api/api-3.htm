@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Hermes 1.3 API: Format Conversion</TITLE>
+ <LINK HREF="api-4.htm" REL=next>
+ <LINK HREF="api-2.htm" REL=previous>
+ <LINK HREF="api.htm#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="api-4.htm">Next</A>
+<A HREF="api-2.htm">Previous</A>
+<A HREF="api.htm#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. Format Conversion</A></H2>
+
+<P>There are a few steps involved in getting your buffers / images converted.
+Initialisation, request for conversion, palette setting and the actual
+conversion.
+<P>
+<P>The routines below will normally be called in the following order to do
+what they are supposed to do:
+<P>
+<UL>
+<LI>Hermes_ConverterInstance</LI>
+<LI>Loop starts here:</LI>
+<LI>Hermes_ConverterRequest</LI>
+<LI>Hermes_ConverterPalette</LI>
+<LI>Hermes_ConverterCopy</LI>
+<LI>Go to Loop</LI>
+<LI>Hermes_ConverterReturn</LI>
+</UL>
+<P>
+<P>You will have to call Hermes_ConverterPalette every time before copying
+because your palette might have changed. And if there is a conversion from 8
+bit to a direct colour format then HERMES has to update its lookup tables.
+<P>
+<P>WARNING: Do not attempt to save time by not calling Hermes_ConverterPalette
+or Hermes_ConverterRequest in your program's main loop. You have nothing to
+be afraid of, HERMES caches everything for you. If nothing changes, HERMES
+returns immediately. Omitting the calls will only cause problems.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.1">3.1 HermesHandle Hermes_ConverterInstance(unsigned long flags)</A>
+</H2>
+
+<P>This will generate a new converter instance and return it to you. If an
+error occurs, 0 will be returned instead. Don't forget to check. At the
+moment, you can pass the following flags:
+<P>
+<UL>
+<LI>HERMES_CONVERT_DITHER - Use dithering where appropriate and a converter
+is available. That will make every effort to dither but if it's an exotic
+conversion and no one has written the converter yet, it will fall back to
+normal conversion</LI>
+</UL>
+<P>
+<P>Additional notes: Hermes keeps a dynamic array of converter instances that
+will grow if it runs out of space. You can change the default size and
+growth of the array in HermConf.h before compiling.
+<P>
+<P>Keep the handle this function returns somewhere safe, you will need it for
+any other conversion function (and you can use it for locking if you want
+to be thread safe!)
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.2">3.2 void Hermes_ConverterReturn(HermesHandle handle)</A>
+</H2>
+
+<P>Return the conversion routine specified by handle to HERMES to free up its
+spaces. This will get rid of all caches, lookup tables, etc. associated with
+this converter. Try not to create and destroy converters too often, it is
+costly. After all, the main effort in HERMES was to shift everything from
+loop time to initialisation time.
+<P>
+<P>HERMES will ignore attempts to return non-existing handles.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.3">3.3 int Hermes_ConverterRequest(...)</A>
+</H2>
+
+<P>Complete function declaration: Hermes_ConverterRequest(HermesHandle handle, 
+HermesFormat *source, HermesFormat *dest).
+<P>
+<P>This will instruct Hermes to find a converter from the given source format
+to the given destination format and store it in the structure associated
+with handle. (Get a converter handle using Hermes_ConverterInstance).
+<P>
+<P>As mentioned before, don't be shy, call it every time before you call
+Hermes_ConverterCopy unless you are really sure that the size of your
+window, colour format etc. doesn't change. You don't have to be afraid as
+any calls without changes will return success immediately.
+<P>
+<P>The way HERMES will find your converter is the following:
+<P>
+<UL>
+<LI>Check if anything has changed (colour formats, etc.). If no, return</LI>
+<LI>If the two colour formats are equal, return optimised converters</LI>
+<LI>Look for a specialised converter for the two formats</LI>
+<LI>If nothing has been found so far, find a generic converter</LI>
+</UL>
+<P>
+<P>This function will return a non-zero value if a converter could be found,
+otherwise zero will be returned.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.4">3.4 int Hermes_ConverterPalette(...)</A>
+</H2>
+
+<P>Complete function declaration: Hermes_ConverterPalette(HermesHandle handle,
+HermesHandle sourcepal, HermesHandle destpal)
+<P>
+<P>handle is the converter handle you got by using Hermes_ConverterInstance().
+sourcepal and destpal are two palette handles which you have to get 
+using Hermes_PaletteInstance().
+<P>
+<P>This function will instruct HERMES to use the specified palettes for format
+conversion. At the moment, only sourcepal is of interest. It will be used
+whenever you want to convert from an indexed 8 bit format to any destination
+format. You may pass the sourcepal handle as destpal for the time being, it
+has no effect.
+<P>
+<P>If converting from 8 bit to a non-indexed format, HERMES has to create a
+lookup table. In order to prevent any cycle-wasting, HERMES will cache those
+lookup tables for you. Whenever you change the palette, however - using
+Hermes_PaletteSet - the lookup tables have to be recalculated. In any case,
+generating lookup tables is a minor effort.
+<P>
+<P>If any of the handles you pass are invalid or some other error occurs,
+HERMES will return zero on this function. Otherwise any non-zero value is
+returned.
+<P>
+<P>
+<H2><A NAME="ss3.5">3.5 int Hermes_ConverterCopy(...)</A>
+</H2>
+
+<P>Complete function declaration: Hermes_ConverterCopy(HermesHandle handle,
+void *s_pixels,int s_x,int s_y,int s_width,int s_height,int s_pitch,
+void *d_pixels,int d_x,int d_y,int d_width,int d_height,int d_pitch)
+<P>
+<P>Now, this is the real things and it has so many parameters that I might as
+well make a list out of them :)
+<P>
+<UL>
+<LI>HermesHandle handle - the converter handle from Hermes_ConverterInstance</LI>
+<LI>void *s_pixels - pointer to the beginning of your source buffer. It is
+void because it might be any kind of format</LI>
+<LI>int s_x - x coordinate of top left corner in the source buffer, in pixels,
+not bytes!</LI>
+<LI>int s_y - y coordinate of top left corner in the source buffer</LI>
+<LI>int s_width - width of the area of the source buffer to be converted,
+in pixels!</LI>
+<LI>int s_height - height of the area of the source buffer to be converted</LI>
+<LI>int s_pitch - the pitch of the source buffer, more below.</LI>
+<LI>void *d_pixels - pointer to the beginning of the destination buffer</LI>
+<LI>int d_x - x coordinate of top left corner in the destination buffer,
+in pixels, not bytes!</LI>
+<LI>int d_y - y coordinate of top left corner in the destination buffer</LI>
+<LI>int d_width - width of the converted area in the destination buffer,
+int pixels, not bytes!</LI>
+<LI>int d_height - height of the converted area in the destination buffer</LI>
+<LI>int d_pitch - pitch of the destination buffer, more below</LI>
+</UL>
+<P>
+<P>And, before I forget it, coordinates and widths up there are in pixels, not
+bytes! (That should prevent you from making mistakes now :)
+<P>
+<P>The <B>pitch</B> of a buffer is basically the number of bytes in a scanline. This
+is normally equal to the width of the scanline in pixels times the number of
+bytes in a pixel. However, one some platforms this is not true.. and
+somebody might want to align their scanlines and they would find this quite
+comfortable.
+<P>
+<P>In other words, the pitch is the amount in bytes to add to the beginning of
+a scanline in order to get to the beginning of the next scanline. Read
+again: amount in BYTES this time, NOT pixels. Beware!
+<P>
+<P>There are a few things that can cause this function to return 0 (which
+indicates an error):
+<P>
+<OL>
+<LI>You specified an invalid handle</LI>
+<LI>The source width or source height does not match the destination width
+or destination height AND no stretch converter can be found</LI>
+</OL>
+<P>
+<P>From this, the policy of this function should be apparent but shall be made
+a bit more explicit:
+<P>
+<UL>
+<LI>If the dithering flag has been set, find a dithering routine,
+otherwise fall back to normal</LI>
+<LI>If s_width!=d_width or s_height!=d_height then a stretching routine has
+to be used</LI>
+<LI>Otherwise do a normal conversion</LI>
+</UL>
+<P>
+<P>It is probably also worthwhile noting that even though this all has a
+<B>Converter</B> prefix, if the source and destination formats are equal,
+then straight copying will be used.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="api-4.htm">Next</A>
+<A HREF="api-2.htm">Previous</A>
+<A HREF="api.htm#toc3">Contents</A>
+</BODY>
+</HTML>

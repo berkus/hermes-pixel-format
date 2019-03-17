@@ -1,0 +1,55 @@
+Hermes 1.3                                                               NEWS
+-----------------------------------------------------------------------------
+last updated on October 11th, 2001
+
+?? ?? 200?, Version 1.3.3
+
+	- Added the remaining stretch converters
+	- Fixed existing stretch converters
+	- applied patch [ #462106 ] Fixed Blitters and Converters
+	- added new test program
+	- fix display problem (iface alpha mask not setup correctly)
+	- fixed memory leaks (patch by Mark Page)
+	- Added cygwin support
+	- Some updates for Borland support.
+	- fixed debug level 2 (std output stuff)
+	- fixed win32 hermes static lib compilation
+	- Borland compile fixes
+	- Fixed s_height-- bug, reported by Christian Gruner.
+	- Fixed "weird diagonal things" bug, reported by Jeff Macht.
+
+July 24th 2000,  Version 1.3.2
+
+	- Maintenance release!
+	- Fixed alpha blitting.
+
+Version 1.3.1
+
+	- Maintenance release!
+	- Fixed build environment under unix.
+
+Version 1.3.0
+
+	- Added blitter API.
+	- Added alpha mask support in generic converters.
+	- Added colorkey support.
+
+Version 1.2.6
+
+	- Maintenance release!
+	- New MMX converters
+	- Assorted bug fixes (including some serious ones)
+	- Version 1.2.6 compiles out of the box on BeOS (on Intel processors)
+
+Version 1.2.5
+
+	- Types.h is *deprecated*. You can still include it but it will
+	be removed in a couple of versions. Include H_Types.h from now on.
+
+	- There is proper Visual C++ support now, with assembler conversion.
+	Read INSTALL.Win32.
+
+	- Preliminary BeOS support. Give it a try.
+
+	- None of the changes break compatibility. You do NOT need to 
+	recompile programs that depend on Hermes. (Good news eh? :)

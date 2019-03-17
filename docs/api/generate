@@ -1,0 +1,6 @@
+#!/bin/sh
+sgml2html -h sgml/api.sgml
+sgml2txt -f sgml/api.sgml
+sgml2latex sgml/api.sgml
+dvips api.dvi -o
+rm -f api.dvi

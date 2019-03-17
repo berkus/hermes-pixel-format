@@ -1,0 +1,5 @@
+
+* define wich tests to perform (AND their predefined outcome)
+* modularize the tests in some way; defining input(data) & output(result)
+* do a couverage test (checking that all conversions are covered by the test -
+  INCLUDING optimized (MMX) conversions!)
